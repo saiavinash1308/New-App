@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Splash.unity
+    guid: 10da668ec0a1e4354a439752318d6582
+  - enabled: 1
+    path: Assets/Scenes/SignUp.unity
+    guid: 9397837a0a77fe048aee73adabbc114e
+  - enabled: 1
+    path: Assets/Scenes/Home.unity
+    guid: 20c304023eb4e424abac1ae11f06a5b0
+  - enabled: 1
+    path: Assets/Scenes/MindMorga.unity
+    guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/MindMorgaLoadingScene.unity
+    guid: cd042793858814e10ad84ab1e2758a9a
+  - enabled: 1
+    path: Assets/Scenes/LudoLoadingSceneFor2Player.unity
+    guid: ad3d7b613169a46bbb2168a92341a4dc
+  - enabled: 1
+    path: Assets/Scenes/LudoLoadingScene.unity
+    guid: d1a220d24f53a424e96735dc5e070904
+  - enabled: 1
+    path: Assets/Scenes/classicludo.unity
+    guid: 60c02f8b4fe9abb4dbdffafb38743ec1
+  m_configObjects: {}

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniWebView Message Example</title>
+</head>
+<body>
+    <h1>UniWebView Message Example</h1>
+    <button id="sendMessage">Send Payment Response</button>
+
+    <script>// Function to send a message to UniWebView
+        function sendMessageToUnity() {
+            const scheme = "uniwebview"; // Scheme defined in the Unity script
+            const path = "paymentResponse"; // Example path
+            const args = new URLSearchParams({
+                status: "success", // Example status
+                details: JSON.stringify({ // Example details object
+                    order_id: "order_12345",
+                    payment_id: "pay_12345",
+                    signature: "abcd1234"
+                })
+            });
+
+            // Construct the message URL
+            const message = ${ scheme }://${path}?${args.toString()};
+
+                // Send the message
+                window.location.href = message;
+        }
+
+        // Add event listener to the button
+        document.getElementById("sendMessage").addEventListener("click", sendMessageToUnity);</script>
+</body>
+</html>

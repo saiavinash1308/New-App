@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Razorpay Payment</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Hide scrollbar */
+        }
+
+        body {
+            -ms-overflow-style: none; /* For Internet Explorer and Edge */
+            scrollbar-width: none; /* For Firefox */
+        }
+
+            body::-webkit-scrollbar {
+                display: none; /* For Chrome, Safari, and Opera */
+            }
+    </style>
+</head>
+<body>
+    <script>// Extract dynamic data from query parameters
+        const queryParams = new URLSearchParams(window.location.search);
+        const orderId = queryParams.get('orderId');
+        const amount = queryParams.get('amount');
+
+        // Validate orderId and amount
+        if (!orderId || !amount) {
+            console.error("Order ID or Amount is missing!");
+            alert("Invalid Payment Details");
+        } else {
+            // Initialize Razorpay options
+            var options = {
+                "key": "rzp_test_ILhEsA5oxLGYj5", // Your Key ID
+                "amount": amount,
+                "currency": "INR",
+                "name": "Acme Corp",
+                "description": "Test Transaction",
+                "image": "https://example.com/your_logo",
+                "order_id": orderId,
+                "callback_url": `https://backend-zh32.onrender.com/api/transactions/update`,
+                "theme": {
+                    "color": "#3399cc"
+                },
+                "handler": function (response) {
+                    // Send success response back to Unity
+                    console.log(response.razorpay_payment_id);
+                    console.log(response.razorpay_order_id);
+                    console.log(response.razorpay_signature);
+
+                    fetch(`https://backend-zh32.onrender.com/api/transactions/update`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            razorpay_payment_id: response.razorpay_payment_id,
+                            razorpay_order_id: response.razorpay_order_id,
+                            razorpay_signature: response.razorpay_signature,
+                            status: 'paid' // Mark as paid on success
+                        }),
+                    });
+                },
+                "modal": {
+                    "ondismiss": function () {
+                        // Send failure response back to Unity
+                        fetch(`https://backend-production-7ebf.up.railway.app//api/transactions/update`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                status: 'failed' // Mark as failed if dismissed or unsuccessful
+                            }),
+                        });
+                    }
+                }
+            };
+
+            var rzp1 = new Razorpay(options);
+
+            // Automatically open the Razorpay payment modal when the page loads
+            window.onload = function () {
+                rzp1.open();
+            };
+        }</script>
+</body>
+</html>
